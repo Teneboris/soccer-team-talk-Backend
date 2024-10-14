@@ -1,0 +1,90 @@
+version: "3.8"
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: unless-stopped
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=pass
+      - MONGO_INITDB_DATABASE=admin
+    command: --config /etc/mongo/mongod.conf
+    volumes:
+      #- /data/db/ #MongoDB data persistence
+      #- /var/log/mongodb/
+      #- ./config/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh
+      - mongo-data:/data/db  # MongoDB data persistence
+      - ./mongod.conf:/etc/mongo/mongod.conf  # Custom MongoDB configuration
+    networks:
+      - main-network
+
+  mongo-client:
+    image: mongo:latest
+    container_name: mongo-client
+    depends_on:
+      - mongodb
+    networks:
+      - main-network
+    entrypoint: >
+      sh -c "
+        echo 'Waiting for MongoDB to start...' &&
+        sleep 20 &&
+        echo 'Creating user in MongoDB...' &&
+        mongosh --host mongodb --username admin --password pass --authenticationDatabase admin --eval '
+          db.createUser({ user: \"admin\", pwd: \"pass\", roles: [{ role: \"readWrite\", db: \"SoccerDatabase\" }] });
+          db.getUsers();
+        ' &&
+        echo 'User creation completed.'
+      "
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: pass
+      ME_CONFIG_MONGODB_URL: mongodb://admin:pass@mongodb:27017/admin?authSource=admin
+    networks:
+      - main-network
+
+  soccer-team-talk:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: soccer-team-talk:1.0
+    container_name: soccer-team-talk-app
+    restart: on-failure
+    ports:
+      - 8080:8080
+      - 5005:5005  # Expose debug port
+    depends_on:
+      - mongodb
+    environment:
+      - SERVER_PORT=8080
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_APPLICATION_NAME=soccerTeamTalk
+      - SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE=admin
+      - SPRING_DATA_MONGODB_AUTO_INDEX_CREATION=true
+      - SPRING_DATA_MONGODB_HOST=mongodb
+      - SPRING_DATA_MONGODB_PORT=27017
+      - SPRING_DATA_MONGODB_USERNAME=root
+      - SPRING_DATA_MONGODB_PASSWORD=root
+      - SPRING_DATA_MONGODB_DATABASE=SoccerDatabase
+      - SPRING_DATA_MONGODB_URI=mongodb://root:root@mongodb:27017/SoccerDatabase?authSource=admin
+    volumes:
+      - soccer-app-data:/app  # Ensure runner.jar is synchronized with this volume
+    networks:
+      - main-network
+
+networks:
+  main-network:
+    name: soccer-network
+
+volumes:
+  soccer-app-data:  # Volume for soccer-team-talk service
+  mongo-data:  # Volume for MongoDB

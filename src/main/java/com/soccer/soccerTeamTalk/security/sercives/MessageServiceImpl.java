@@ -9,9 +9,11 @@ import com.soccer.soccerTeamTalk.repository.MessageRepository;
 import com.soccer.soccerTeamTalk.repository.StatusRepository;
 import com.soccer.soccerTeamTalk.repository.UserRepository;
 import com.soccer.soccerTeamTalk.security.jwt.AuthEntryPointJwt;
+import com.soccer.soccerTeamTalk.security.jwt.JwtUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -38,6 +40,10 @@ public class MessageServiceImpl implements MessageService{
     @Autowired
     UserDetailsServiceImpl userDetailsService;
 
+    @Autowired
+    private JwtUtils jwtUtils;
+
+
     private static final Logger logger = LoggerFactory.getLogger(AuthEntryPointJwt.class);
 
     @Override
@@ -62,24 +68,32 @@ public class MessageServiceImpl implements MessageService{
         throw new RuntimeException("conversation ID does not exist");
     }
 
-    private User setSender(MessageRequest request) {
+    private UserDetails setSender(MessageRequest request) {
 
-        List<User> validRecipients = getValidUsers();
+        UserDetails userDetails = userDetailsService.loadUserByUsername(request.getSender().getUsername());
 
-        if (validRecipients.isEmpty()) {
-            throw new RuntimeException("No valid senders found in the usernames list");
+        if (userDetails == null) {
+            throw new RuntimeException("No valid senders found");
         }
-
-        for (int i=0; i<=validRecipients.size(); i++) {
-            if(request.getSender().getUsername().equals(validRecipients.get(i).getUsername())) {
-                request.getSender().setUsername(validRecipients.get(i).getUsername());
-                return validRecipients.get(i);
-            }else {
-                throw new RuntimeException("sender not found");
-            }
+        
+        if(userDetails.getUsername().equals(request.getSender().getUsername())){
+            //checkToken(userDetails1.getUsername());
+            request.getSender().setUsername(userDetails.getUsername());
         }
-        throw new RuntimeException("sender cannot be set");
+        return userDetails;
     }
+
+/*    private String checkToken(String username) {
+
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+        String jwt = jwtUtils.generateToken(userDetails);
+
+        if(userDetails != null){
+            return jwt;
+        }
+        throw new RuntimeException("registered user not identified as sender");
+    }*/
 
     private User setRecipient(MessageRequest request) {
 
@@ -93,8 +107,6 @@ public class MessageServiceImpl implements MessageService{
             if(request.getRecipient().getUsername().equals(validRecipients.get(i).getUsername())) {
                 request.getRecipient().setUsername(validRecipients.get(i).getUsername());
                 return validRecipients.get(i);
-            }else {
-                throw new RuntimeException("recipient not found");
             }
         }
         throw new RuntimeException("recipient cannot be set");
@@ -216,8 +228,8 @@ public class MessageServiceImpl implements MessageService{
     private MessageDTO mapToDTO(Message message) {
         return new MessageDTO(
                 message.getContent(),
-                message.getSender().getEmail(),
-                message.getRecipient().getEmail(),
+                message.getSender().getUsername(),
+                message.getRecipient().getUsername(),
                 message.getStatus()
         );
     }

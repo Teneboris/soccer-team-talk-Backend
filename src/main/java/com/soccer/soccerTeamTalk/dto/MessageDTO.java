@@ -5,6 +5,7 @@ import com.soccer.soccerTeamTalk.models.conversation.MessageContent;
 import com.soccer.soccerTeamTalk.models.conversation.MessageStatus;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
 import java.util.Set;

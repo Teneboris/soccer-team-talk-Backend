@@ -12,6 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
 import java.util.Set;
@@ -36,7 +37,7 @@ public class Message extends Auditable<String> {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "sender_id", referencedColumnName = "id")
-    private User sender;
+    private UserDetails sender;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "recipient_id", referencedColumnName = "id")

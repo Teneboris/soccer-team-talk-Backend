@@ -3,6 +3,7 @@ package com.soccer.soccerTeamTalk.security.sercives;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.soccer.soccerTeamTalk.models.User;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@NoArgsConstructor
 public class UserDetailsImpl implements UserDetails {
     private static final long serialVersionUID = 1L;
 

@@ -51,7 +51,7 @@ public class MessageServiceImpl implements MessageService{
 
         Message message = new Message();
         //checkIfConversationExist();
-        message.setContent(getMessageContent(request));
+        message.setContent(setMessageContent(request));
         message.setSender(setSender(request));
         message.setRecipient(setRecipient(request));
         message.setStatus(chooseStatus(request));
@@ -77,7 +77,6 @@ public class MessageServiceImpl implements MessageService{
         }
 
         if(userDetails.getUsername().equals(request.getSender().getUsername())){
-            //checkToken(userDetails1.getUsername());
             request.getSender().setUsername(userDetails.getUsername());
         }
         return userDetails;
@@ -114,19 +113,19 @@ public class MessageServiceImpl implements MessageService{
 
     private List<User> getValidUsers() {
 
-        List<User> usernames = getUsersByUsername();
+        List<User> usernames = getUsers();
         List<User> validUsers = usernames.stream()
                 .filter(user -> user.getUsername() != null)
                 .collect(Collectors.toList());
         return validUsers;
     }
 
-    private List<User> getUsersByUsername() {
+    private List<User> getUsers() {
         List<User> user = new ArrayList<>(userRepository.findAll());
         return user;
     }
 
-    private MessageContent getMessageContent(MessageRequest request) {
+    private MessageContent setMessageContent(MessageRequest request) {
         MessageContent content = new MessageContent();
         if(content.getText() == null){
             content.setText(request.getContent().getText());
@@ -229,7 +228,7 @@ public class MessageServiceImpl implements MessageService{
         return new MessageDTO(
                 message.getContent(),
                 message.getSender().getUsername(),
-                message.getRecipient().getUsername(),
+                message.getRecipient(),
                 message.getStatus()
         );
     }

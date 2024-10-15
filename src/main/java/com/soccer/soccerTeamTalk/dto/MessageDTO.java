@@ -18,11 +18,11 @@ public class MessageDTO {
 
     private String sender;
 
-    private String recipient;
+    private User recipient;
 
     private Set<MessageStatus> status;
 
-    public MessageDTO(MessageContent content, String sender, String recipient, Set<MessageStatus> status) {
+    public MessageDTO(MessageContent content, String sender, User recipient, Set<MessageStatus> status) {
         this.content = content;
         this.sender = sender;
         this.recipient = recipient;

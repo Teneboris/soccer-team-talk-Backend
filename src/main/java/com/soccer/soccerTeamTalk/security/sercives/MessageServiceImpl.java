@@ -75,7 +75,7 @@ public class MessageServiceImpl implements MessageService{
         if (userDetails == null) {
             throw new RuntimeException("No valid senders found");
         }
-        
+
         if(userDetails.getUsername().equals(request.getSender().getUsername())){
             //checkToken(userDetails1.getUsername());
             request.getSender().setUsername(userDetails.getUsername());

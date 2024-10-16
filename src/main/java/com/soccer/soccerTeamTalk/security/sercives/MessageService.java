@@ -13,4 +13,6 @@ public interface MessageService {
     List<MessageDTO> getAllMessages();
 
     MessageDTO getMessageById(String id);
+
+    MessageDTO deleteMessage(String id);
 }

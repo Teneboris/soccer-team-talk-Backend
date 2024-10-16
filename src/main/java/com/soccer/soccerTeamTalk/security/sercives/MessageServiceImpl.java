@@ -268,6 +268,11 @@ public class MessageServiceImpl implements MessageService{
         return mapToDTO(message);
     }
 
+    @Override
+    public MessageDTO deleteMessage(String id) {
+        return null;
+    }
+
     /**
      * Helper method to map Message (entity) to MessageDTO
      * @param message

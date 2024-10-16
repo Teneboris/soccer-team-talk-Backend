@@ -1,7 +1,8 @@
-package com.soccer.soccerTeamTalk.security.sercives;
+package com.soccer.soccerTeamTalk.security.sercives.implementation;
 
 import com.soccer.soccerTeamTalk.models.Game;
 import com.soccer.soccerTeamTalk.repository.GameRepository;
+import com.soccer.soccerTeamTalk.security.sercives.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class GameServiceImpl implements GameService{
+public class GameServiceImpl implements GameService {
 
     @Autowired
     GameRepository gameRepository;

@@ -1,7 +1,7 @@
 package com.soccer.soccerTeamTalk.controllers;
 
 import com.soccer.soccerTeamTalk.models.Training;
-import com.soccer.soccerTeamTalk.security.sercives.TrainingServiceImpl;
+import com.soccer.soccerTeamTalk.security.sercives.implementation.TrainingServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

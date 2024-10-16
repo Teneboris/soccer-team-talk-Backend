@@ -1,20 +1,15 @@
 package com.soccer.soccerTeamTalk.controllers;
 
-import com.soccer.soccerTeamTalk.models.ERole;
-import com.soccer.soccerTeamTalk.models.Role;
-import com.soccer.soccerTeamTalk.models.User;
 import com.soccer.soccerTeamTalk.playload.request.JwtResponseToken;
 import com.soccer.soccerTeamTalk.playload.request.LoginRequest;
 import com.soccer.soccerTeamTalk.playload.request.SignupRequest;
 import com.soccer.soccerTeamTalk.playload.request.TokenRefreshRequest;
 import com.soccer.soccerTeamTalk.playload.response.JwtResponse;
 import com.soccer.soccerTeamTalk.playload.response.MessageResponse;
-import com.soccer.soccerTeamTalk.repository.RoleRepository;
-import com.soccer.soccerTeamTalk.repository.UserRepository;
 import com.soccer.soccerTeamTalk.security.jwt.JwtUtils;
-import com.soccer.soccerTeamTalk.security.sercives.AuthServiceImpl;
-import com.soccer.soccerTeamTalk.security.sercives.UserDetailsImpl;
-import com.soccer.soccerTeamTalk.security.sercives.UserDetailsServiceImpl;
+import com.soccer.soccerTeamTalk.security.sercives.implementation.AuthServiceImpl;
+import com.soccer.soccerTeamTalk.security.sercives.implementation.UserDetailsImpl;
+import com.soccer.soccerTeamTalk.security.sercives.implementation.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,14 +17,13 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
+
+import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -68,14 +62,20 @@ public class AuthController {
                     userDetails.getEmail(),
                     roles));
         }
-        return ResponseEntity.status(400).body("some error has occurred");
+        return ResponseEntity.ok(MessageResponse.builder()
+                .message("some error has occurred")
+                .status(HttpStatus.valueOf(400))
+                .build());
     }
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
 
         authService.UserRegister(signUpRequest);
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        return ResponseEntity.ok(MessageResponse.builder()
+                .message("User registered successfully!")
+                .status(OK)
+                .build());
     }
 
     @PostMapping("/refresh-token")

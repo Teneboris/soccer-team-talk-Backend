@@ -2,8 +2,7 @@ package com.soccer.soccerTeamTalk.security;
 
 import com.soccer.soccerTeamTalk.security.jwt.AuthEntryPointJwt;
 import com.soccer.soccerTeamTalk.security.jwt.JwtAuthFilter;
-import com.soccer.soccerTeamTalk.security.sercives.UserDetailsServiceImpl;
-import lombok.RequiredArgsConstructor;
+import com.soccer.soccerTeamTalk.security.sercives.implementation.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

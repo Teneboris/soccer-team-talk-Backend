@@ -1,14 +1,13 @@
-package com.soccer.soccerTeamTalk.security.sercives;
+package com.soccer.soccerTeamTalk.security.sercives.implementation;
 
 import com.soccer.soccerTeamTalk.models.ERole;
 import com.soccer.soccerTeamTalk.models.Role;
 import com.soccer.soccerTeamTalk.models.User;
 import com.soccer.soccerTeamTalk.playload.request.SignupRequest;
-import com.soccer.soccerTeamTalk.playload.response.MessageResponse;
 import com.soccer.soccerTeamTalk.repository.RoleRepository;
 import com.soccer.soccerTeamTalk.repository.UserRepository;
+import com.soccer.soccerTeamTalk.security.sercives.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +15,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
-public class AuthServiceImpl implements AuthService{
+public class AuthServiceImpl implements AuthService {
 
     @Autowired
     UserRepository userRepository;

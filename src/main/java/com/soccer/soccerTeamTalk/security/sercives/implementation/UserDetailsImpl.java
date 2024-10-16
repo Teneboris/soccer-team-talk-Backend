@@ -1,4 +1,4 @@
-package com.soccer.soccerTeamTalk.security.sercives;
+package com.soccer.soccerTeamTalk.security.sercives.implementation;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.soccer.soccerTeamTalk.models.User;

@@ -1,7 +1,8 @@
-package com.soccer.soccerTeamTalk.security.sercives;
+package com.soccer.soccerTeamTalk.security.sercives.implementation;
 
 import com.soccer.soccerTeamTalk.models.Training;
 import com.soccer.soccerTeamTalk.repository.TrainingRepository;
+import com.soccer.soccerTeamTalk.security.sercives.TrainingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TrainingServiceImpl implements TrainingService{
+public class TrainingServiceImpl implements TrainingService {
 
     @Autowired
     TrainingRepository trainingRepository;

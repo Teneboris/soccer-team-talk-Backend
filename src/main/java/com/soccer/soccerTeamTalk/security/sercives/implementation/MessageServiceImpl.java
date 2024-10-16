@@ -1,4 +1,4 @@
-package com.soccer.soccerTeamTalk.security.sercives;
+package com.soccer.soccerTeamTalk.security.sercives.implementation;
 
 import com.soccer.soccerTeamTalk.dto.MessageDTO;
 import com.soccer.soccerTeamTalk.models.Game;
@@ -9,6 +9,7 @@ import com.soccer.soccerTeamTalk.playload.request.MessageRequest;
 import com.soccer.soccerTeamTalk.repository.*;
 import com.soccer.soccerTeamTalk.security.jwt.AuthEntryPointJwt;
 
+import com.soccer.soccerTeamTalk.security.sercives.MessageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class MessageServiceImpl implements MessageService{
+public class MessageServiceImpl implements MessageService {
 
     @Autowired
     MessageRepository messageRepository;

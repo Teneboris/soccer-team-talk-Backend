@@ -2,12 +2,11 @@ package com.soccer.soccerTeamTalk.controllers;
 
 import com.soccer.soccerTeamTalk.dto.MessageDTO;
 import com.soccer.soccerTeamTalk.playload.request.MessageRequest;
-import com.soccer.soccerTeamTalk.security.sercives.MessageServiceImpl;
+import com.soccer.soccerTeamTalk.security.sercives.implementation.MessageServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @CrossOrigin
@@ -19,13 +18,13 @@ public class MessageController {
     MessageServiceImpl messageService;
 
     @PostMapping("/{trainingId}/createmessage")
-    public ResponseEntity<MessageDTO> createMessageForSpecificTraining(@RequestBody MessageRequest request, @PathVariable String trainingId) {
+    public ResponseEntity<MessageDTO> createMessageForSpecificTraining(@RequestBody MessageRequest request, @PathVariable("trainingId") String trainingId) {
         MessageDTO createMessage = messageService.createMessage(request, trainingId);
         return ResponseEntity.ok(createMessage);
     }
 
     @PostMapping("/{gameId}/createmessage")
-    public ResponseEntity<MessageDTO> createMessageForSpecificGame(@RequestBody MessageRequest request, @PathVariable String gameId) {
+    public ResponseEntity<MessageDTO> createMessageForSpecificGame(@RequestBody MessageRequest request, @PathVariable("gameId") String gameId) {
         MessageDTO createMessage = messageService.createMessage(request, gameId);
         return ResponseEntity.ok(createMessage);
     }

@@ -1,8 +1,9 @@
-package com.soccer.soccerTeamTalk.security.sercives;
+package com.soccer.soccerTeamTalk.security.sercives.implementation;
 
 import com.soccer.soccerTeamTalk.models.conversation.MessageConversation;
 import com.soccer.soccerTeamTalk.repository.MessageConversationRepository;
 import com.soccer.soccerTeamTalk.repository.MessageRepository;
+import com.soccer.soccerTeamTalk.security.sercives.MessageConversationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

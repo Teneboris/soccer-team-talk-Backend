@@ -22,10 +22,16 @@ public class MessageDTO {
 
     private Set<MessageStatus> status;
 
-    public MessageDTO(MessageContent content, String sender, User recipient, Set<MessageStatus> status) {
+    private String training;
+
+    private String Game;
+
+    public MessageDTO(MessageContent content, String sender, User recipient, Set<MessageStatus> status,String training, String game) {
         this.content = content;
         this.sender = sender;
         this.recipient = recipient;
         this.status = status;
+        this.training = training;
+        this.Game = game;
     }
 }

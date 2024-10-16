@@ -45,6 +45,14 @@ public class Message extends Auditable<String> {
 
     private Set<MessageStatus> status;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "training_id", referencedColumnName = "id")
+    private Training training;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "game_id", referencedColumnName = "id")
+    private Game game;
+
     private MessageConversation conversation;
 
 }

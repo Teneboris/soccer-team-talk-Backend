@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface MessageService {
 
-    MessageDTO createMessage(MessageRequest request);
+    MessageDTO createMessage(MessageRequest request, String id);
 
     List<MessageDTO> getAllMessages();
 

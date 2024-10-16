@@ -3,6 +3,7 @@ package com.soccer.soccerTeamTalk.models;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.soccer.soccerTeamTalk.audit.Auditable;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -13,6 +14,7 @@ import java.util.Date;
 @Document(collection = "trainings")
 @Setter
 @Getter
+@NoArgsConstructor
 public class Training extends Auditable<String> {
 
     @Id
@@ -36,11 +38,4 @@ public class Training extends Auditable<String> {
     @NotEmpty(message = "{validation.name.NotEmpty}")
     private Date date;
 
-    public Training(String address, String city, int postalCode, String description, Date date) {
-        this.address = address;
-        this.city = city;
-        this.postalCode = postalCode;
-        this.description = description;
-        this.date = date;
-    }
 }

@@ -1,25 +1,21 @@
 package com.soccer.soccerTeamTalk.security.sercives;
 
 import com.soccer.soccerTeamTalk.dto.MessageDTO;
+import com.soccer.soccerTeamTalk.models.Game;
+import com.soccer.soccerTeamTalk.models.Training;
 import com.soccer.soccerTeamTalk.models.User;
 import com.soccer.soccerTeamTalk.models.conversation.*;
 import com.soccer.soccerTeamTalk.playload.request.MessageRequest;
-import com.soccer.soccerTeamTalk.repository.MessageConversationRepository;
-import com.soccer.soccerTeamTalk.repository.MessageRepository;
-import com.soccer.soccerTeamTalk.repository.StatusRepository;
-import com.soccer.soccerTeamTalk.repository.UserRepository;
+import com.soccer.soccerTeamTalk.repository.*;
 import com.soccer.soccerTeamTalk.security.jwt.AuthEntryPointJwt;
-import com.soccer.soccerTeamTalk.security.jwt.JwtUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,13 +37,16 @@ public class MessageServiceImpl implements MessageService{
     UserDetailsServiceImpl userDetailsService;
 
     @Autowired
-    private JwtUtils jwtUtils;
+    private TrainingServiceImpl trainingService;
+
+    @Autowired
+    private GameServiceImpl gameService;
 
 
     private static final Logger logger = LoggerFactory.getLogger(AuthEntryPointJwt.class);
 
     @Override
-    public MessageDTO createMessage(MessageRequest request) {
+    public MessageDTO createMessage(MessageRequest request, String id) {
 
         Message message = new Message();
         //checkIfConversationExist();
@@ -55,6 +54,8 @@ public class MessageServiceImpl implements MessageService{
         message.setSender(setSender(request));
         message.setRecipient(setRecipient(request));
         message.setStatus(chooseStatus(request));
+        message.setTraining(setTrainingId(id));
+        message.setGame(setGameId(id));
 
         Message savedMessage = messageRepository.save(message);
         return mapToDTO(savedMessage);
@@ -109,6 +110,54 @@ public class MessageServiceImpl implements MessageService{
             }
         }
         throw new RuntimeException("recipient cannot be set");
+    }
+
+    private Training setTrainingId(String id) {
+
+        Optional<Training> validTrainingId = getTrainingIds(id);
+
+        if (validTrainingId.isEmpty()) {
+            throw new RuntimeException("valid training id not found");
+        }
+
+        Training training = new Training();
+
+        if(validTrainingId.isPresent()) {
+            training.setId(validTrainingId.get().getId());
+        }
+        return validTrainingId.get();
+    }
+
+    private Optional<Training> getTrainingIds(String id) {
+        Optional<Training> trainingId = trainingService.getTrainingById(id);
+        trainingId.stream()
+                .filter(training -> training.getId() != null)
+                .collect(Collectors.toList());
+        return trainingId;
+    }
+
+    private Game setGameId(String id) {
+
+        Optional<Game> validGameId = getGameIds(id);
+
+        if (validGameId.isEmpty()) {
+            throw new RuntimeException("valid training id not found");
+        }
+
+        Training training = new Training();
+
+        if(validGameId.isPresent()) {
+            training.setId(validGameId.get().getId());
+        }
+        return validGameId.get();
+    }
+
+    private Optional<Game> getGameIds(String id) {
+        Optional<Game> gameId = gameService.getGameById(id);
+        gameId.stream()
+                .filter(game -> game.getId() != null)
+                .collect(Collectors.toList());
+        return gameId;
     }
 
     private List<User> getValidUsers() {
@@ -229,7 +278,9 @@ public class MessageServiceImpl implements MessageService{
                 message.getContent(),
                 message.getSender().getUsername(),
                 message.getRecipient(),
-                message.getStatus()
+                message.getStatus(),
+                message.getTraining().getId(),
+                message.getGame().getId()
         );
     }
 }

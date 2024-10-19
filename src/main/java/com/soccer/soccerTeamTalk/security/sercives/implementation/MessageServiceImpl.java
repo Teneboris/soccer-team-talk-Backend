@@ -1,6 +1,7 @@
 package com.soccer.soccerTeamTalk.security.sercives.implementation;
 
 import com.soccer.soccerTeamTalk.dto.MessageDTO;
+import com.soccer.soccerTeamTalk.dto.TrainingGameDTO;
 import com.soccer.soccerTeamTalk.models.Game;
 import com.soccer.soccerTeamTalk.models.Training;
 import com.soccer.soccerTeamTalk.models.User;
@@ -17,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -50,13 +52,44 @@ public class MessageServiceImpl implements MessageService {
     public MessageDTO createMessage(MessageRequest request, String id) {
 
         Message message = new Message();
+
         //checkIfConversationExist();
+        message.getId();
         message.setContent(setMessageContent(request));
         message.setSender(setSender(request));
         message.setRecipient(setRecipient(request));
         message.setStatus(chooseStatus(request));
-        message.setTraining(setTrainingId(id));
-        message.setGame(setGameId(id));
+
+        if (id != null) {
+
+            if (message.getTraining() == null) {
+                Optional<Training> trainingOptional = getTrainingIds(id);
+                if (trainingOptional.isPresent()) {
+                    Training trainingId = trainingOptional.get();
+                    if (trainingId.getId().equals(id)) {
+                        message.setTraining(setTrainingId(id));
+                    } else {
+                        message.setTraining(null);
+                    }
+                } else {
+                    message.setTraining(null);
+                }
+            }
+
+            if (message.getGame() == null) {
+                Optional<Game> gameOptional = getGameIds(id);
+                if (gameOptional.isPresent()) {
+                    Game gameId = gameOptional.get();
+                    if (gameId.getId().equals(id)) {
+                        message.setGame(setGameId(id));
+                    } else {
+                        message.setGame(null);
+                    }
+                } else {
+                    message.setGame(null);
+                }
+            }
+        }
 
         Message savedMessage = messageRepository.save(message);
         return mapToDTO(savedMessage);
@@ -140,15 +173,14 @@ public class MessageServiceImpl implements MessageService {
     private Game setGameId(String id) {
 
         Optional<Game> validGameId = getGameIds(id);
+        Game game = new Game();
 
         if (validGameId.isEmpty()) {
-            throw new RuntimeException("valid training id not found");
+            throw new RuntimeException("valid game id not found");
         }
 
-        Training training = new Training();
-
-        if(validGameId.isPresent()) {
-            training.setId(validGameId.get().getId());
+        if(validGameId.equals(id)) {
+            game.setId(validGameId.get().getId());
         }
         return validGameId.get();
     }
@@ -281,12 +313,13 @@ public class MessageServiceImpl implements MessageService {
      */
     private MessageDTO mapToDTO(Message message) {
         return new MessageDTO(
+                message.getId(),
                 message.getContent(),
                 message.getSender().getUsername(),
                 message.getRecipient(),
                 message.getStatus(),
-                message.getTraining().getId(),
-                message.getGame().getId()
+                message.getTraining(),
+                message.getGame()
         );
     }
 }

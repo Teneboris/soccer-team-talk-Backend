@@ -64,7 +64,7 @@ public class AuthController {
         }
         return ResponseEntity.ok(MessageResponse.builder()
                 .message("some error has occurred")
-                .status(HttpStatus.valueOf(400))
+                .statusCode(400)
                 .build());
     }
 

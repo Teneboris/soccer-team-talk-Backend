@@ -30,7 +30,7 @@ public class GameController {
         return ResponseEntity.ok(games);
     }
 
-    @GetMapping("/getGameById")
+    @GetMapping("/getGameById/{id}")
     public ResponseEntity<Optional<Game>> getGameById(@PathVariable("id") String id){
         Optional<Game> game = gameServiceImpl.getGameById(id);
         return ResponseEntity.ok(game);

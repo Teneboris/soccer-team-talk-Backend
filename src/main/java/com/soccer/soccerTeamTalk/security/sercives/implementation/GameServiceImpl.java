@@ -28,11 +28,7 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public Optional<Game> getGameById(String id) {
-        Optional<Game> game = gameRepository.findById(id);
-        if(game.isPresent()){
-            return game;
-        }
-         throw new RuntimeException("game not found");
+        return gameRepository.findById(id);
     }
 
     @Override

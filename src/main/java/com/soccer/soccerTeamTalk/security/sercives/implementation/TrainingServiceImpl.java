@@ -31,11 +31,7 @@ public class TrainingServiceImpl implements TrainingService {
 
     @Override
     public Optional<Training> getTrainingById(String id) {
-        Optional<Training> training = trainingRepository.findById(id);
-        if(training.isPresent()){
-            return training;
-        }
-        throw new RuntimeException("Training not found");
+        return trainingRepository.findById(id);
     }
 
     @Override

@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.springframework.http.HttpStatus;
 
+import java.util.Map;
+
 @Data
 @NoArgsConstructor
 @SuperBuilder
@@ -14,7 +16,7 @@ public class MessageResponse {
 
     private HttpStatus status;
 
-    public MessageResponse(String message){
-        this.message = message;
-    }
+    private Map<?, ?> data;
+
+    protected int statusCode;
 }

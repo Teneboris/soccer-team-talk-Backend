@@ -17,15 +17,9 @@ public class MessageController {
     @Autowired
     MessageServiceImpl messageService;
 
-    @PostMapping("/{trainingId}/createmessage")
-    public ResponseEntity<MessageDTO> createMessageForSpecificTraining(@RequestBody MessageRequest request, @PathVariable("trainingId") String trainingId) {
-        MessageDTO createMessage = messageService.createMessage(request, trainingId);
-        return ResponseEntity.ok(createMessage);
-    }
-
-    @PostMapping("/{gameId}/createmessage")
-    public ResponseEntity<MessageDTO> createMessageForSpecificGame(@RequestBody MessageRequest request, @PathVariable("gameId") String gameId) {
-        MessageDTO createMessage = messageService.createMessage(request, gameId);
+    @PostMapping("/{id}/createmessage")
+    public ResponseEntity<MessageDTO> createMessageForSpecificTraining(@RequestBody MessageRequest request, @PathVariable("id") String id) {
+        MessageDTO createMessage = messageService.createMessage(request, id);
         return ResponseEntity.ok(createMessage);
     }
 

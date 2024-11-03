@@ -1,5 +1,6 @@
 package com.soccer.soccerTeamTalk.controllers;
 
+import com.soccer.soccerTeamTalk.models.User;
 import com.soccer.soccerTeamTalk.playload.request.JwtResponseToken;
 import com.soccer.soccerTeamTalk.playload.request.LoginRequest;
 import com.soccer.soccerTeamTalk.playload.request.SignupRequest;
@@ -76,6 +77,12 @@ public class AuthController {
                 .message("User registered successfully!")
                 .status(OK)
                 .build());
+    }
+
+    @GetMapping("/getusers")
+    public ResponseEntity<List<User>> getUsers() {
+        List<User> users = userDetailsService.getAllUserWithoutLoggedUser();
+        return ResponseEntity.ok(users);
     }
 
     @PostMapping("/refresh-token")

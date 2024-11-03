@@ -1,7 +1,6 @@
 package com.soccer.soccerTeamTalk.models.conversation;
 
 import com.soccer.soccerTeamTalk.audit.Auditable;
-import com.soccer.soccerTeamTalk.dto.TrainingGameDTO;
 import com.soccer.soccerTeamTalk.models.Game;
 import com.soccer.soccerTeamTalk.models.Training;
 import com.soccer.soccerTeamTalk.models.User;
@@ -16,7 +15,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.List;
 import java.util.Set;
 
 @Document(collection="messages")
@@ -58,7 +56,7 @@ public class Message extends Auditable<String> {
     @JoinColumn(name = "game_id", referencedColumnName = "id")
     private Game game;
 
-    private TrainingGameDTO trainingGameDTO;
+    //private TrainingGameDTO trainingGameDTO;
 
     private MessageConversation conversation;
 

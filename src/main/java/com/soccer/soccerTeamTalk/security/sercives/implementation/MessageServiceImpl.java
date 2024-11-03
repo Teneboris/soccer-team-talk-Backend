@@ -1,7 +1,6 @@
 package com.soccer.soccerTeamTalk.security.sercives.implementation;
 
 import com.soccer.soccerTeamTalk.dto.MessageDTO;
-import com.soccer.soccerTeamTalk.dto.TrainingGameDTO;
 import com.soccer.soccerTeamTalk.models.Game;
 import com.soccer.soccerTeamTalk.models.Training;
 import com.soccer.soccerTeamTalk.models.User;
@@ -18,7 +17,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service

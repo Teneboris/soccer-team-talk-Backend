@@ -3,7 +3,7 @@ package com.soccer.soccerTeamTalk.models.conversation;
 public enum EMessageStatus {
 
     READ {
-        public String getDescription() {
+        public String getDescriptin() {
             return "Message was read";
         }
     },

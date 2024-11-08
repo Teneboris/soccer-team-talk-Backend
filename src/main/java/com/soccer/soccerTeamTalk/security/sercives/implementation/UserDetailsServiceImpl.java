@@ -10,7 +10,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,6 +33,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     public List<User> getAllUserWithoutLoggedUser() {
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
@@ -50,5 +53,19 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .filter(user -> !user.getUsername().equals(loggedUsername))
                 .collect(Collectors.toList());
     }
+
+    public Map<String, String> getLoggedUsername() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
+            throw new RuntimeException("User not authenticated");
+        }
+
+        String loggedUsername = authentication.getName();
+        Map<String, String> loggedUserame = new HashMap<>();
+        loggedUserame.put("loggedUsername", loggedUsername);
+        return loggedUserame;
+    }
+
 
 }

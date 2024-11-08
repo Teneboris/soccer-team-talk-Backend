@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.OK;
@@ -83,6 +84,12 @@ public class AuthController {
     public ResponseEntity<List<User>> getUsers() {
         List<User> users = userDetailsService.getAllUserWithoutLoggedUser();
         return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/loggeduser")
+    public ResponseEntity<Map<String, String>> getLoggedUser() {
+        Map<String, String> loggedUser = userDetailsService.getLoggedUsername();
+        return ResponseEntity.ok(loggedUser);
     }
 
     @PostMapping("/refresh-token")

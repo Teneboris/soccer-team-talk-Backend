@@ -28,7 +28,7 @@ public class MessageConversation extends Auditable<String> {
     @JoinColumn(name = "message_id", referencedColumnName = "id")
     private Message message;
 
-    private MessageStatus status;
+    //private MessageStatus status;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "training_id", referencedColumnName = "id")
@@ -37,4 +37,6 @@ public class MessageConversation extends Auditable<String> {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "game_id", referencedColumnName = "id")
     private Game game;
+
+    private MessageStatus status;
 }

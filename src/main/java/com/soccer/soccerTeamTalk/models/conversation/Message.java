@@ -8,9 +8,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,9 +16,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Set;
 
 @Document(collection="messages")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Message extends Auditable<String> {
 
     @Id
@@ -39,25 +37,21 @@ public class Message extends Auditable<String> {
     //private String reportUrl;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "sender_id", referencedColumnName = "id")
-    private UserDetails sender;
-
-    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "recipient_id", referencedColumnName = "id")
     private User recipient;
 
-    private Set<MessageStatus> status;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "sender_id", referencedColumnName = "id")
+    private UserDetails sender;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "training_id", referencedColumnName = "id")
     private Training training;
 
+    private Set<MessageStatus> status;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "game_id", referencedColumnName = "id")
     private Game game;
-
-    //private TrainingGameDTO trainingGameDTO;
-
-    private MessageConversation conversation;
 
 }

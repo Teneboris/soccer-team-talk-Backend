@@ -17,9 +17,9 @@ public class MessageDTO {
     private String messageId;
     private MessageContent content;
 
-    private String sender;
-
     private User recipient;
+
+    private String sender;
 
     private Set<MessageStatus> status;
 
@@ -27,11 +27,11 @@ public class MessageDTO {
 
     private Game game;
 
-    public MessageDTO(String messageId, MessageContent content, String sender, User recipient, Set<MessageStatus> status,Training training, Game game) {
+    public MessageDTO(String messageId, MessageContent content, User recipient, String sender, Set<MessageStatus> status,Training training, Game game) {
         this.messageId = messageId;
         this.content = content;
-        this.sender = sender;
         this.recipient = recipient;
+        this.sender = sender;
         this.status = status;
         this.training = training;
         this.game = game;

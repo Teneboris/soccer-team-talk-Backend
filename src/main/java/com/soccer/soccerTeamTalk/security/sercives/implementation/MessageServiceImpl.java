@@ -54,8 +54,8 @@ public class MessageServiceImpl implements MessageService {
         //checkIfConversationExist();
         message.getId();
         message.setContent(setMessageContent(request));
-        message.setSender(setSender(request));
         message.setRecipient(setRecipient(request));
+        message.setSender(setSender(request));
         message.setStatus(chooseStatus(request));
 
         if (id != null) {
@@ -93,13 +93,13 @@ public class MessageServiceImpl implements MessageService {
         return mapToDTO(savedMessage);
     }
 
-    private MessageConversation checkIfConversationExist(){
+/*    private MessageConversation checkIfConversationExist(){
         MessageConversation messageConversation = new MessageConversation();
         if(messageConversation.getId() != null){
             return messageConversation.getMessage().getConversation();
         }
         throw new RuntimeException("conversation ID does not exist");
-    }
+    }*/
 
     private UserDetails setSender(MessageRequest request) {
 
@@ -162,9 +162,12 @@ public class MessageServiceImpl implements MessageService {
 
     private Optional<Training> getTrainingIds(String id) {
         Optional<Training> trainingId = trainingService.getTrainingById(id);
-        trainingId.stream()
-                .filter(training -> training.getId() != null)
-                .collect(Collectors.toList());
+
+        if(trainingId.isPresent()) {
+            trainingId.stream()
+                    .filter(training -> training.getId() != null)
+                    .collect(Collectors.toList());
+        }
         return trainingId;
     }
 
@@ -279,6 +282,7 @@ public class MessageServiceImpl implements MessageService {
         return conversationRepository.save(conversation);
     }
 
+
  /*   private MessageConversation getConversationById(String id) {
         Message messageUser = new Message();
         MessageConversation conversationId = conversationRepository.findById(id)
@@ -313,8 +317,8 @@ public class MessageServiceImpl implements MessageService {
         return new MessageDTO(
                 message.getId(),
                 message.getContent(),
-                message.getSender().getUsername(),
                 message.getRecipient(),
+                message.getSender().getUsername(),
                 message.getStatus(),
                 message.getTraining(),
                 message.getGame()

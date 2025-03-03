@@ -86,7 +86,7 @@ public class AuthController {
         return ResponseEntity.ok(users);
     }
 
-    @GetMapping("/loggeduser")
+    @GetMapping("/logged-username")
     public ResponseEntity<Map<String, String>> getLoggedUser() {
         Map<String, String> loggedUser = userDetailsService.getLoggedUsername();
         return ResponseEntity.ok(loggedUser);

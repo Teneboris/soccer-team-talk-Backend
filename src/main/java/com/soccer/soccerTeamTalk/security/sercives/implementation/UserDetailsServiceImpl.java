@@ -1,5 +1,6 @@
 package com.soccer.soccerTeamTalk.security.sercives.implementation;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.soccer.soccerTeamTalk.models.User;
 import com.soccer.soccerTeamTalk.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
-    private UserDetails userDetails;
+    private JsonService jsonService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -62,10 +63,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
 
         String loggedUsername = authentication.getName();
-        Map<String, String> loggedUserame = new HashMap<>();
-        loggedUserame.put("loggedUsername", loggedUsername);
-        return loggedUserame;
+        Map<String, String> loggedUsernameMap = new HashMap<>();
+        loggedUsernameMap.put("username", loggedUsername);
+        return loggedUsernameMap;
     }
-
 
 }

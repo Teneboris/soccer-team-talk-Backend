@@ -34,7 +34,7 @@ public class Training extends Auditable<String> {
     @NotEmpty(message = "{validation.name.NotEmpty}")
     private String description;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
+    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     @NotEmpty(message = "{validation.name.NotEmpty}")
     private Date date;
 

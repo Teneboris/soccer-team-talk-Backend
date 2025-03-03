@@ -5,6 +5,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,27 +16,21 @@ import javax.validation.constraints.Email;
 import java.util.HashSet;
 import java.util.Set;
 
+@Data
 @Document(collection = "users")
 @NoArgsConstructor
 public class User extends Auditable<String> {
 
     @Id
-    @Setter
-    @Getter
     private String id;
-    @Setter
-    @Getter
+
     private String username;
-    @Setter
-    @Getter
+
     private String password;
-    @Setter
-    @Getter
+
     @Email(message = "{validation.email.Type}")
     private String email;
 
-    @Setter
-    @Getter
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),

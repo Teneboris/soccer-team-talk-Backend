@@ -1,11 +1,11 @@
 package com.soccer.soccerTeamTalk.models.conversation;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class MessageContent {
 
     private String text;
@@ -17,4 +17,5 @@ public class MessageContent {
     private String file;
 
     private String audio;
+
 }
